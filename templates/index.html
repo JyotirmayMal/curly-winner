@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register & Login</title>
+</head>
+<body>
+
+    <h2>Register</h2>
+    <form id="registerForm">
+        <label>Username:</label><br>
+        <input type="text" id="reg_username" required><br>
+        <label>Password:</label><br>
+        <input type="password" id="reg_password" required><br>
+        <label>Role (admin/user):</label><br>
+        <input type="text" id="reg_role" value="user"><br><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <p id="registerResult"></p>
+
+    <hr>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label>Username:</label><br>
+        <input type="text" id="login_username" required><br>
+        <label>Password:</label><br>
+        <input type="password" id="login_password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="loginResult"></p>
+
+    <script>
+        // Register Form
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('reg_username').value,
+                    password: document.getElementById('reg_password').value,
+                    role: document.getElementById('reg_role').value
+                })
+            });
+            const result = await response.json();
+            document.getElementById('registerResult').innerText = JSON.stringify(result);
+        });
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('login_username').value,
+                    password: document.getElementById('login_password').value
+                })
+            });
+            const result = await response.json();
+            document.getElementById('loginResult').innerText = JSON.stringify(result);
+        });
+    </script>
+
+</body>
+</html>
